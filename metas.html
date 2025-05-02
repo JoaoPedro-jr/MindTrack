@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Metas de Estudo</title>
+  <link rel="stylesheet" href="src/sidebar/style.css">
+  <link rel="stylesheet" href="src/metas/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body id="body-pd">
+  <header class="header" id="header"></header>
+  <div class="l-navbar" id="nav-bar"></div>
+
+  <main class="main-content">
+    <section>
+      <div class="top-bar">
+        <h1>Metas de estudo</h1>
+        <button class="btn-add">Adicionar Meta</button>
+      </div>
+      <h2 class="subtitle">Lista de Metas</h2>
+      <div class="cards cards-align-center">
+        <div class="card">
+          <h3>Meta semanal</h3>
+          <p>Total de horas: <span class="highlight">15 horas</span></p>
+          <div class="card-actions">
+            <button class="btn-icon"><i class="bx bx-star"></i></button>
+            <button class="btn-icon"><i class="bx bx-pencil"></i></button>
+            <button class="btn-icon"><i class="bx bx-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
+        document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
+        document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
+        iniciarSidebar();
+      });
+
+    function iniciarSidebar() {
+      const toggleButton = document.getElementById('header-toggle');
+      const navBar = document.getElementById('nav-bar');
+      const bodyPd = document.getElementById('body-pd');
+      const headerPd = document.getElementById('header');
+      if (toggleButton && navBar && bodyPd && headerPd) {
+        toggleButton.addEventListener('click', () => {
+          navBar.classList.toggle('show');
+          toggleButton.classList.toggle('bx-x');
+          bodyPd.classList.toggle('body-pd');
+          headerPd.classList.toggle('body-pd');
+        });
+      }
+    }
+  </script>
+  <div id="modal-meta" class="modal-meta-bg" style="display:none;">
+    <div class="modal-meta">
+      <h3>Adicionar Meta</h3>
+      <label>Tipo de meta:</label>
+      <select id="tipo-meta">
+        <option value="diaria">Diária</option>
+        <option value="semanal" selected>Semanal</option>
+        <option value="mensal">Mensal</option>
+      </select>
+      <label>Total de horas:</label>
+      <input type="number" id="horas-meta" min="1" value="1" />
+      <div class="modal-meta-actions">
+        <button id="cancelar-meta" class="btn-add" style="background:#aaa;">Cancelar</button>
+        <button id="salvar-meta" class="btn-add">Adicionar</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Abrir modal
+    document.querySelector('.btn-add').onclick = () => {
+      document.getElementById('modal-meta').style.display = 'flex';
+    };
+  
+    // Fechar modal
+    document.getElementById('cancelar-meta').onclick = () => {
+      document.getElementById('modal-meta').style.display = 'none';
+    };
+  
+    // Adicionar nova meta
+    document.getElementById('salvar-meta').onclick = () => {
+      const tipo = document.getElementById('tipo-meta').value;
+      const horas = document.getElementById('horas-meta').value;
+      const tipoLabel = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+  
+      // Cria o card
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>Meta ${tipoLabel}</h3>
+        <p>Total de horas: <span class="highlight">${horas} horas</span></p>
+        <div class="card-actions">
+          <button class="btn-icon"><i class="bx bx-star"></i></button>
+          <button class="btn-icon"><i class="bx bx-pencil"></i></button>
+          <button class="btn-icon"><i class="bx bx-trash"></i></button>
+        </div>
+      `;
+      document.querySelector('.cards').appendChild(card);
+  
+      // Fecha o modal
+      document.getElementById('modal-meta').style.display = 'none';
+    };
+  </script>
+  <script src="src/metas/script.js"></script>
+</body>
+</html>
