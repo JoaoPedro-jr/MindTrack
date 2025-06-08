@@ -1,0 +1,75 @@
+
+
+
+.cronograma {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.linha-separadora {
+  margin: 0 20px;
+}
+
+.text-calender {
+  padding: 10px 20px;
+}
+
+.calendario {
+  padding: 10px 20px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+/* Cada dia no calendário */
+.calendario .dia {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 5px;
+  position: relative;
+}
+
+/* Botão de adicionar evento dentro do dia */
+.calendario .add {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  background-color: #5dc9b1;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Estilos dos eventos */
+.evento {
+  margin-top: 25px;
+  font-size: 0.75rem;
+  border-radius: 3px;
+  padding: 2px 5px;
+  color: white;
+  font-weight: 600;
+}
+
+.evento.prova {
+  background-color: #e74c3c;
+}
+
+.evento.revisao-materia {
+  background-color: #3498db;
+}
+
+.evento.entrega {
+  background-color: #f39c12;
+}
+
+.evento.pauta {
+  background-color: #9b59b6;
+}
+
+.evento.descanso {
+  background-color: #2ecc71;
+}

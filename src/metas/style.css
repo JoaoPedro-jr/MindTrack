@@ -162,3 +162,8 @@
   gap: 1rem;
   margin-top: 1rem;
 }
+.materias{
+  display: flex;
+  flex-direction: flex-start;
+  flex-wrap: wrap;
+}

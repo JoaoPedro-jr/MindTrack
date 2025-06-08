@@ -3,118 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Visão Geral</title>
-  <link rel="stylesheet" href="src/dashbord/style.css" />
+  <title>Tarefas | MindTrack</title>
+  <link rel="stylesheet" href="src/horarios/style.css" />
   <link rel="stylesheet" href="src/sidebar/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
-<body>
-  <div class="container">
-    <main class="main-content">
-      <header class="header">
-      </header>
-
-      <section class="dashboard">
-        <h2>Informações Gerais</h2>
-        <div class="cards">
-          <div class="card">
-            <h3>Tempo Total de estudo</h3>
-            <p class="highlight">65:10:00</p>
-            <small>20 registros</small>
-          </div>
-          <div class="card">
-            <h3>Total de metas concluídas:</h3>
-            <p class="highlight">3</p>
-          </div>
-          <div class="card">
-            <h3>Total de Matérias:</h3>
-            <p class="highlight">15</p>
-          </div>
-        </div>
-
-        <div class="flex-sections">
-          <div class="tasks">
-            <h3>Tarefas Pendentes:</h3>
-            <ul>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-            </ul>
-          </div>
-
-          <div class="reminders">
-            <h3>Lembretes:</h3>
-            <ul>
-              <li><span class="status yellow">•</span> Fazer o Projeto da PUC</li>
-              <li><span class="status yellow">•</span> Acabar Lógica da PUC</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="subjects">
-          <h3>Matérias</h3>
-          <ul>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-          </ul>
-        </div>
-      </section>
-    </main>
-  </div>
-  <body id="body-pd">
-    <header class="header" id="header"></header> 
-    <div class="l-navbar" id="nav-bar"></div>     
-    <div id="main-content">
-      
-    </div>
-  </body>
+</head>
+<body id="body-pd">
+  <header class="header" id="header"></header>
+  <nav class="l-navbar" id="nav-bar"></nav>
   
+   <main class="container">
+    <h1></h1>
 
+    <section class="cards">
+      <div class="card destaque">
+        <h2 img=""> Dias seguidos estudando</h2>
+        <p class="valor">6 dias</p>
+        <small>Você manteve o foco por 6 dias!</small>
+      </div>
+      <div class="card">
+        <h2> Metas concluídas</h2>
+        <p class="valor">1</p>
+        <small>Você já completou 1 meta!</small>
+      </div>
+      <div class="card">
+        <h2> Tempo de estudo</h2>
+        <p id="totalHoras" class="valor-grande"></p>
+        <small>Últimos 7 dias</small>
+      </div>
+    </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  fetch('sidebar.html')
-    .then(response => response.text())
-    .then(data => {
+    <section class="graficos">
+      <div class="grafico-barra">
+        <h3>Grafico de estudos - Últimos 7 dias</h3>
+        <canvas id="graficoEstudos"></canvas>
+      </div>
+  <div class="card-tempo-semanal">
+  <h3>Media de estudos semanal:</h3>
+  <div class="cardt">
+    <p id="totalHoras" class="valor-grande"></p>
+    <canvas id="graficoPizza" width="400" height="400"></canvas>
+  </div>
+  <div class="legenda-pizza">
+    <span><span class="cor" style="background-color:#2E4A42;"></span> Segunda</span>
+    <span><span class="cor" style="background-color:#4CAF50;"></span> Terça</span>
+    <span><span class="cor" style="background-color:#81C784;"></span> Quarta</span>
+    <span><span class="cor" style="background-color:#A5D6A7;"></span> Quinta</span>
+    <span><span class="cor" style="background-color:#C8E6C9;"></span> Sexta</span>
+    <span><span class="cor" style="background-color:#8BC34A;"></span> Sábado</span>
+    <span><span class="cor" style="background-color:#E8F5E9;"></span> Domingo</span>
+  </div>
+</div>
 
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = data;
-
-   
-      document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
-      document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
-
-      iniciarSidebar();
-    });
-
-  function iniciarSidebar() {
-    const toggleButton = document.getElementById('header-toggle');
-    const navBar = document.getElementById('nav-bar');
-    const bodyPd = document.getElementById('body-pd');
-    const headerPd = document.getElementById('header');
-
-    if (toggleButton && navBar && bodyPd && headerPd) {
-      toggleButton.addEventListener('click', () => {
-        navBar.classList.toggle('show');
-        toggleButton.classList.toggle('bx-x');
-        bodyPd.classList.toggle('body-pd');
-        headerPd.classList.toggle('body-pd');
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
+        document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
+        document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
+        iniciarSidebar();
       });
-    } else {
-      console.error('Elementos não encontrados.');
+
+    function iniciarSidebar() {
+      const toggleButton = document.getElementById('header-toggle');
+      const navBar = document.getElementById('nav-bar');
+      const bodyPd = document.getElementById('body-pd');
+      const headerPd = document.getElementById('header');
+      if (toggleButton && navBar && bodyPd && headerPd) {
+        toggleButton.addEventListener('click', () => {
+          navBar.classList.toggle('show');
+          toggleButton.classList.toggle('bx-x');
+          bodyPd.classList.toggle('body-pd');
+          headerPd.classList.toggle('body-pd');
+        });
+      }
     }
-  }
-</script>
+  </script>
+  <script src="src/horarios/script.js"></script>
+  
 </body>
 </html>

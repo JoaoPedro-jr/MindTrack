@@ -4,117 +4,80 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Visão Geral</title>
-  <link rel="stylesheet" href="src/dashbord/style.css" />
-  <link rel="stylesheet" href="src/sidebar/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
-<body>
-  <div class="container">
-    <main class="main-content">
-      <header class="header">
-      </header>
+  <link rel="stylesheet" href="src/calendario/style.css" />
+  <link rel="stylesheet" href="src/sidebar/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body id="body-pd">
 
-      <section class="dashboard">
-        <h2>Calendario</h2>
-        <div class="cards">
-          <div class="card">
-            <h3>Tempo Total de estudo</h3>
-            <p class="highlight">65:10:00</p>
-            <small>20 registros</small>
-          </div>
-          <div class="card">
-            <h3>Total de metas concluídas:</h3>
-            <p class="highlight">3</p>
-          </div>
-          <div class="card">
-            <h3>Total de Matérias:</h3>
-            <p class="highlight">15</p>
-          </div>
-        </div>
+  <header class="header" id="header"></header> 
+  <div class="l-navbar" id="nav-bar"></div>
 
-        <div class="flex-sections">
-          <div class="tasks">
-            <h3>Tarefas Pendentes:</h3>
-            <ul>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-            </ul>
-          </div>
-
-          <div class="reminders">
-            <h3>Lembretes:</h3>
-            <ul>
-              <li><span class="status yellow">•</span> Fazer o Projeto da PUC</li>
-              <li><span class="status yellow">•</span> Acabar Lógica da PUC</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="subjects">
-          <h3>Matérias</h3>
-          <ul>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-          </ul>
-        </div>
-      </section>
-    </main>
+  <div class="cronograma">
+    <p>Calendário</p>
   </div>
-  <body id="body-pd">
-    <header class="header" id="header"></header> 
-    <div class="l-navbar" id="nav-bar"></div>     
-    <div id="main-content">
-      
+  <div><hr class="linha-separadora" /></div>
+
+  <div class="text-calender">
+    <h2 class="cm">Cronograma Mensal</h2>
+    <h1 class="abril">MAIO 2025</h1>
+  </div>
+
+  <div class="calendario" id="calendario-grid">
+    
+  </div>
+
+
+  <div class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModalBtn" style="cursor:pointer;">X</span>
+      <h3>Adicionar Evento</h3>
+      <input type="text" id="titulo-evento" placeholder="Título do Evento" />
+      <select id="cor-evento">
+        <option value="prova">Prova</option>
+        <option value="revisao-materia">Revisão</option>
+        <option value="entrega">Entrega</option>
+        <option value="pauta">Reunião</option>
+        <option value="descanso">Descanso</option>
+      </select>
+      <button id="salvarEventoBtn">Salvar</button>
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="desfazerBtn" class="btn btn-warning">Desfazer</button>
+      </div>
+      <button id="resetCalendarBtn" class="btn btn-danger mt-3">Resetar Calendário</button>
     </div>
-  </body>
-  
+  </div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  fetch('sidebar.html')
-    .then(response => response.text())
-    .then(data => {
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = data;
-
-   
-      document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
-      document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
-
-      iniciarSidebar();
-    });
-
-  function iniciarSidebar() {
-    const toggleButton = document.getElementById('header-toggle');
-    const navBar = document.getElementById('nav-bar');
-    const bodyPd = document.getElementById('body-pd');
-    const headerPd = document.getElementById('header');
-
-    if (toggleButton && navBar && bodyPd && headerPd) {
-      toggleButton.addEventListener('click', () => {
-        navBar.classList.toggle('show');
-        toggleButton.classList.toggle('bx-x');
-        bodyPd.classList.toggle('body-pd');
-        headerPd.classList.toggle('body-pd');
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="src/calendario/main.js"></script>
+  <script>
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
+        document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
+        document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
+        iniciarSidebar();
+        inicializarCalendario(); 
       });
-    } else {
-      console.error('Elementos não encontrados.');
+
+    function iniciarSidebar() {
+      const toggleButton = document.getElementById('header-toggle');
+      const navBar = document.getElementById('nav-bar');
+      const bodyPd = document.getElementById('body-pd');
+      const headerPd = document.getElementById('header');
+      if (toggleButton && navBar && bodyPd && headerPd) {
+        toggleButton.addEventListener('click', () => {
+          navBar.classList.toggle('show');
+          toggleButton.classList.toggle('bx-x');
+          bodyPd.classList.toggle('body-pd');
+          headerPd.classList.toggle('body-pd');
+        });
+      }
     }
-  }
-</script>
+  </script>
 </body>
 </html>

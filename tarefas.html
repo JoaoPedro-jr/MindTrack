@@ -3,118 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Visão Geral</title>
-  <link rel="stylesheet" href="src/dashbord/style.css" />
+  <title>Tarefas | MindTrack</title>
+  <link rel="stylesheet" href="src/tarefas/style.css" />
   <link rel="stylesheet" href="src/sidebar/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
-<body>
-  <div class="container">
-    <main class="main-content">
-      <header class="header">
-      </header>
+</head>
+<body id="body-pd">
+  <header class="header" id="header"></header>
+  <nav class="l-navbar" id="nav-bar"></nav>
+  <main>
+    <section class="tarefas-header">
+      <h1>Tarefas</h1>
+      <button id="addTaskButton" class="btn-add-task"><i class='bx bx-plus'></i> Nova Tarefa</button>
+    </section>
 
-      <section class="dashboard">
-        <h2>Informações Gerais</h2>
-        <div class="cards">
-          <div class="card">
-            <h3>Tempo Total de estudo</h3>
-            <p class="highlight">65:10:00</p>
-            <small>20 registros</small>
-          </div>
-          <div class="card">
-            <h3>Total de metas concluídas:</h3>
-            <p class="highlight">3</p>
-          </div>
-          <div class="card">
-            <h3>Total de Matérias:</h3>
-            <p class="highlight">15</p>
-          </div>
-        </div>
+    <section>
+      <h2>Favoritas <i class='bx bxs-star' style="color:#ffc107"></i></h2>
+      <ul id="favoriteTasks" class="tarefas-list"></ul>
+    </section>
 
-        <div class="flex-sections">
-          <div class="tasks">
-            <h3>Tarefas Pendentes:</h3>
-            <ul>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-              <li><span class="status red">Pendente</span> Estudar Python</li>
-            </ul>
-          </div>
+    <section>
+      <h2>Minhas Tarefas</h2>
+      <ul id="taskList" class="tarefas-list"></ul>
+    </section>
 
-          <div class="reminders">
-            <h3>Lembretes:</h3>
-            <ul>
-              <li><span class="status yellow">•</span> Fazer o Projeto da PUC</li>
-              <li><span class="status yellow">•</span> Acabar Lógica da PUC</li>
-            </ul>
-          </div>
-        </div>
+    <section>
+      <h2>Completas <i class='bx bx-check-double' style="color:#198754"></i></h2>
+      <ul id="completeTasks" class="tarefas-list"></ul>
+    </section>
+  </main>
 
-        <div class="subjects">
-          <h3>Matérias</h3>
-          <ul>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-            <li>Python</li>
-          </ul>
-        </div>
-      </section>
-    </main>
-  </div>
-  <body id="body-pd">
-    <header class="header" id="header"></header> 
-    <div class="l-navbar" id="nav-bar"></div>     
-    <div id="main-content">
-      
-    </div>
-  </body>
-  
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  fetch('sidebar.html')
-    .then(response => response.text())
-    .then(data => {
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = data;
-
-   
-      document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
-      document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
-
-      iniciarSidebar();
-    });
-
-  function iniciarSidebar() {
-    const toggleButton = document.getElementById('header-toggle');
-    const navBar = document.getElementById('nav-bar');
-    const bodyPd = document.getElementById('body-pd');
-    const headerPd = document.getElementById('header');
-
-    if (toggleButton && navBar && bodyPd && headerPd) {
-      toggleButton.addEventListener('click', () => {
-        navBar.classList.toggle('show');
-        toggleButton.classList.toggle('bx-x');
-        bodyPd.classList.toggle('body-pd');
-        headerPd.classList.toggle('body-pd');
+  <script>
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
+        document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
+        document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
+        iniciarSidebar();
       });
-    } else {
-      console.error('Elementos não encontrados.');
+
+    function iniciarSidebar() {
+      const toggleButton = document.getElementById('header-toggle');
+      const navBar = document.getElementById('nav-bar');
+      const bodyPd = document.getElementById('body-pd');
+      const headerPd = document.getElementById('header');
+      if (toggleButton && navBar && bodyPd && headerPd) {
+        toggleButton.addEventListener('click', () => {
+          navBar.classList.toggle('show');
+          toggleButton.classList.toggle('bx-x');
+          bodyPd.classList.toggle('body-pd');
+          headerPd.classList.toggle('body-pd');
+        });
+      }
     }
-  }
-</script>
+  </script>
+  <script src="src/tarefas/main.js"></script>
 </body>
 </html>

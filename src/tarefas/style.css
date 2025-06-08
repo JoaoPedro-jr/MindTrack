@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+:root {
+  --primary: #27594B;
+  --accent: #198754;
+  --danger: #dc3545;
+  --gray: #f8f9fa;
+  --gray-dark: #495057;
+  --white: #fff;
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.04);
+  --font: 'Nunito', sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--gray);
+  color: var(--gray-dark);
+  margin: 0;
+  min-height: 100vh;
+}
+
+main {
+  max-width: 600px;
+  margin: 4rem auto 2rem auto;
+  padding: 0 1rem;
+}
+
+.tarefas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.tarefas-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.btn-add-task {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  padding: 0.7rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-add-task:hover {
+  background: var(--accent);
+}
+
+section > h2 {
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin: 2rem 0 1rem 0;
+  font-weight: 600;
+}
+
+.tarefas-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tarefas-list li {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s;
+}
+
+.tarefas-list li:last-child {
+  margin-bottom: 0;
+}
+
+.tarefas-list .tarefa-completa {
+  text-decoration: line-through;
+  color: #adb5bd;
+  opacity: 0.7;
+}
+
+.tarefas-list .tarefa-favorita {
+  color: #ffc107;
+}
+
+.tarefas-list .btn {
+  background: none;
+  border: none;
+  color: var(--gray-dark);
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tarefas-list .btn:hover {
+  background: var(--gray);
+  color: var(--primary);
+}
+
+.tarefas-list .btn-favorite.active,
+.tarefas-list .btn-favorite:hover {
+  color: #ffc107;
+  background: #fffbe6;
+}
+
+.tarefas-list .btn-danger {
+  color: var(--danger);
+}
+.tarefas-list .btn-danger:hover {
+  background: #ffeaea;
+}
+
+.tarefas-list .btn-success {
+  color: var(--accent);
+}
+.tarefas-list .btn-success:hover {
+  background: #eaf6f3;
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 0 0.2rem;
+  }
+  .tarefas-header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0.7rem 0.7rem 0.7rem;
+  }
+  section > h2 {
+    margin: 1.2rem 0 0.7rem 0;
+  }
+  .tarefas-list li {
+    padding: 0.7rem 0.7rem;
+    font-size: 0.97rem;
+  }
+  .btn-add-task {
+    font-size: 1rem;
+    padding: 0.6rem 1.1rem;
+  }
+}
