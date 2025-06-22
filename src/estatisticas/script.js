@@ -1,28 +1,73 @@
 // --- Funções utilitárias para metas ---
+function getUserPrefix() {
+  return localStorage.getItem('usuarioLogado') || 'anonimo';
+}
 function getMetas() {
-  return JSON.parse(localStorage.getItem('metas')) || [];
+  const prefix = getUserPrefix();
+  return JSON.parse(localStorage.getItem(`${prefix}_metasMindTrack`)) || [];
 }
 function setMetas(metas) {
-  localStorage.setItem('metas', JSON.stringify(metas));
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_metasMindTrack`, JSON.stringify(metas));
 }
 function getFavorita() {
-  const idx = localStorage.getItem('metaFavorita');
+  const prefix = getUserPrefix();
+  const idx = localStorage.getItem(`${prefix}_metaFavorita`);
   return idx !== null ? Number(idx) : null;
 }
 function setFavorita(idx) {
-  localStorage.setItem('metaFavorita', idx);
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_metaFavorita`, idx);
 }
 function getTempoEstudo() {
-  return Number(localStorage.getItem('tempoEstudo')) || 0;
+  const prefix = getUserPrefix();
+  return Number(localStorage.getItem(`${prefix}_tempoEstudo`)) || 0;
 }
 function setTempoEstudo(segundos) {
-  localStorage.setItem('tempoEstudo', segundos);
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_tempoEstudo`, segundos);
 }
 function formatTime(segundos) {
   const h = String(Math.floor(segundos / 3600)).padStart(2, '0');
   const m = String(Math.floor((segundos % 3600) / 60)).padStart(2, '0');
   const s = String(segundos % 60).padStart(2, '0');
   return `${h}:${m}:${s}`;
+}
+function getMetasConcluidas() {
+  const prefix = getUserPrefix();
+  return JSON.parse(localStorage.getItem(`${prefix}_metasConcluidas`) || '[]');
+}
+function setMetasConcluidas(metas) {
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_metasConcluidas`, JSON.stringify(metas));
+}
+
+// --- Funções utilitárias para matérias ---
+function getMaterias() {
+  const prefix = getUserPrefix();
+  return JSON.parse(localStorage.getItem(`${prefix}_materias`)) || [];
+}
+function setMaterias(materias) {
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_materias`, JSON.stringify(materias));
+}
+function getStudyMinutes() {
+  const prefix = getUserPrefix();
+  return JSON.parse(localStorage.getItem(`${prefix}_studyMinutes`) || '[0,0,0,0,0,0,0]');
+}
+function setStudyMinutes(arr) {
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_studyMinutes`, JSON.stringify(arr));
+}
+
+// --- Funções utilitárias para streak ---
+function getStreakInfo() {
+  const prefix = getUserPrefix();
+  return JSON.parse(localStorage.getItem(`${prefix}_streakInfo`) || '{"lastDate":null,"streak":0}');
+}
+function setStreakInfo(info) {
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_streakInfo`, JSON.stringify(info));
 }
 
 // --- Renderização dos cards de metas ---
@@ -58,14 +103,6 @@ function renderConclusaoMeta() {
       el.textContent = '--%';
     }
   }
-}
-
-// --- Funções utilitárias para matérias ---
-function getMaterias() {
-  return JSON.parse(localStorage.getItem('materias')) || [];
-}
-function setMaterias(materias) {
-  localStorage.setItem('materias', JSON.stringify(materias));
 }
 
 // --- Renderização da lista de matérias ---
@@ -111,13 +148,46 @@ function renderMaterias() {
   });
 }
 
-// --- Inicialização e eventos ---
+function renderMetasConcluidas() {
+  const qtd = getMetasConcluidas().length;
+  document.querySelectorAll('.card').forEach(card => {
+    const h2 = card.querySelector('h2');
+    if (h2 && h2.textContent.toLowerCase().includes('metas concluídas')) {
+      const valor = card.querySelector('.valor');
+      const small = card.querySelector('small');
+      if (valor) valor.textContent = qtd > 0 ? qtd : '0';
+      if (small) small.textContent = qtd === 1
+        ? 'Você já completou 1 meta!'
+        : qtd > 1
+          ? `Você já completou ${qtd} metas!`
+          : 'Nenhuma meta concluída ainda';
+    }
+  });
+}
+
+function renderStreak() {
+  const streakInfo = getStreakInfo();
+  const valor = document.getElementById('streak-valor');
+  const small = document.querySelector('#streak-card .streak-data');
+  if (valor) valor.textContent = streakInfo.streak > 0 ? streakInfo.streak : '0';
+  if (small) {
+    if (streakInfo.streak > 1) {
+      small.textContent = `Último registro: ${streakInfo.lastDate || '-'}`;
+    } else if (streakInfo.streak === 1) {
+      small.textContent = `Você estudou hoje!`;
+    } else {
+      small.textContent = `Nenhum dia seguido ainda`;
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Render cards e matérias ao carregar
   renderTempoEstudo();
   renderMetaAtual();
   renderConclusaoMeta();
   renderMaterias();
+  renderMetasConcluidas();
+  renderStreak();
 
   // Modal de estudo
   const btnRegistro = document.querySelector('.btn-registro');
@@ -148,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const favorita = getFavorita();
 
       if (favorita !== null && metas[favorita]) {
-        // Só soma tempo se houver meta favorita
         const tempoTotal = getTempoEstudo() + tempoSegundos;
         setTempoEstudo(tempoTotal);
 
@@ -156,19 +225,55 @@ document.addEventListener('DOMContentLoaded', () => {
         metaSegundos = Math.max(0, metaSegundos - tempoSegundos);
         metas[favorita].horas = (metaSegundos / 3600).toFixed(2);
 
+        // --- ADICIONA META CONCLUÍDA AUTOMATICAMENTE ---
         if (metaSegundos <= 0) {
+          const concluidas = getMetasConcluidas();
+          concluidas.push(metas[favorita]);
+          setMetasConcluidas(concluidas);
+
           alert('Parabéns! Você concluiu sua meta!');
           metas.splice(favorita, 1);
-          localStorage.removeItem('metaFavorita');
-          setTempoEstudo(0); // Reseta o tempo de estudo ao concluir a meta
+          setMetas(metas);
+
+          const prefix = getUserPrefix();
+          localStorage.removeItem(`${prefix}_metaFavorita`);
+
+          setTempoEstudo(0);
         } else {
+          setMetas(metas);
           alert('Tempo registrado!');
         }
-        setMetas(metas);
+
+        // Atualiza o array de minutos estudados por dia
+        const hoje = new Date();
+        const diaSemana = hoje.getDay();
+        const idx = diaSemana === 0 ? 6 : diaSemana - 1;
+        const studyMinutes = getStudyMinutes();
+        studyMinutes[idx] += Math.floor(tempoSegundos / 60);
+        setStudyMinutes(studyMinutes);
+
+        // --- ATUALIZA O STREAK AQUI ---
+        const streakInfo = getStreakInfo();
+        const hojeStr = hoje.toISOString().slice(0, 10);
+        if (streakInfo.lastDate) {
+          const ultima = new Date(streakInfo.lastDate);
+          const diffDias = Math.floor((hoje - ultima) / (1000 * 60 * 60 * 24));
+          if (diffDias === 1) {
+            streakInfo.streak += 1;
+          } else if (diffDias > 1) {
+            streakInfo.streak = 1;
+          }
+        } else {
+          streakInfo.streak = 1;
+        }
+        streakInfo.lastDate = hojeStr;
+        setStreakInfo(streakInfo);
 
         renderTempoEstudo();
         renderMetaAtual();
         renderConclusaoMeta();
+        renderMetasConcluidas();
+        renderStreak();
 
         document.getElementById('modal-estudo-bg').style.display = 'none';
         document.getElementById('tempo-estudo').value = '';
@@ -197,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     };
   }
-  // Modal de matéria - cancelar
   const btnCancelarMateria = document.getElementById('cancelar-materia');
   if (btnCancelarMateria) {
     btnCancelarMateria.onclick = () => {

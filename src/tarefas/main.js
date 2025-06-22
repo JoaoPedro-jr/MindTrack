@@ -1,11 +1,16 @@
+function getUserPrefix() {
+  return localStorage.getItem('usuarioLogado') || 'anonimo';
+}
 
 function getTarefas() {
-  return JSON.parse(localStorage.getItem('tarefasMindTrack') || '[]');
-}
-function setTarefas(tarefas) {
-  localStorage.setItem('tarefasMindTrack', JSON.stringify(tarefas));
+  const prefix = getUserPrefix();
+  return JSON.parse(localStorage.getItem(`${prefix}_tarefas`) || '[]');
 }
 
+function setTarefas(tarefas) {
+  const prefix = getUserPrefix();
+  localStorage.setItem(`${prefix}_tarefas`, JSON.stringify(tarefas));
+}
 
 function renderTarefas() {
   const tarefas = getTarefas();
@@ -23,27 +28,22 @@ function renderTarefas() {
     if (tarefa.completa) span.classList.add('tarefa-completa');
     if (tarefa.favorita) span.classList.add('tarefa-favorita');
 
-
-    span.ondblclick = () => {
-      if (tarefa.completa) return;
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.value = tarefa.titulo;
-      input.onblur = () => {
-        tarefa.titulo = input.value.trim() || tarefa.titulo;
-        setTarefas(tarefas);
-        renderTarefas();
-      };
-      input.onkeydown = e => {
-        if (e.key === 'Enter') input.blur();
-      };
-      li.replaceChild(input, span);
-      input.focus();
-    };
+    // Edição inline por duplo clique
+    span.ondblclick = () => editarTarefa(li, span, tarefa, tarefas);
 
     li.appendChild(span);
 
+    // Botão Editar (ícone de lápis)
+    if (!tarefa.completa) {
+      const btnEdit = document.createElement('button');
+      btnEdit.className = 'btn btn-edit';
+      btnEdit.title = 'Editar';
+      btnEdit.innerHTML = "<i class='bx bx-pencil'></i>";
+      btnEdit.onclick = () => editarTarefa(li, span, tarefa, tarefas);
+      li.appendChild(btnEdit);
+    }
 
+    // Botão Favoritar
     const btnFav = document.createElement('button');
     btnFav.className = 'btn btn-favorite' + (tarefa.favorita ? ' active' : '');
     btnFav.title = tarefa.favorita ? 'Desfavoritar' : 'Favoritar';
@@ -55,7 +55,7 @@ function renderTarefas() {
     };
     li.appendChild(btnFav);
 
-
+    // Botão Completar
     if (!tarefa.completa) {
       const btnComp = document.createElement('button');
       btnComp.className = 'btn btn-success';
@@ -70,7 +70,7 @@ function renderTarefas() {
       li.appendChild(btnComp);
     }
 
-
+    // Botão Excluir
     const btnDel = document.createElement('button');
     btnDel.className = 'btn btn-danger';
     btnDel.title = 'Excluir';
@@ -95,7 +95,35 @@ function renderTarefas() {
   });
 }
 
+// Função de edição (input aparece no lugar do texto)
+function editarTarefa(li, span, tarefa, tarefas) {
+  if (tarefa.completa) return;
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = tarefa.titulo;
+  input.className = 'edit-input';
+  input.onblur = salvar;
+  input.onkeydown = e => {
+    if (e.key === 'Enter') input.blur();
+    if (e.key === 'Escape') cancelar();
+  };
+  li.replaceChild(input, span);
+  input.focus();
 
+  function salvar() {
+    const novoTitulo = input.value.trim();
+    if (novoTitulo) {
+      tarefa.titulo = novoTitulo;
+      setTarefas(tarefas);
+    }
+    renderTarefas();
+  }
+  function cancelar() {
+    renderTarefas();
+  }
+}
+
+// Adicionar nova tarefa
 document.getElementById('addTaskButton').onclick = () => {
   const titulo = prompt('Digite o nome da tarefa:');
   if (titulo && titulo.trim()) {
@@ -106,5 +134,5 @@ document.getElementById('addTaskButton').onclick = () => {
   }
 };
 
-
+// Inicialização
 document.addEventListener('DOMContentLoaded', renderTarefas);

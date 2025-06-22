@@ -1,34 +1,19 @@
-.lembrete-header{ 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding: 10px;
-    margin: 0 auto 20px auto;
-    gap: 10px;
-    max-width: 1300px;
-}
-
-.lembrete-header h2 {
-    margin: 0;
-}
-
-.lembrete-header button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+/* Layout principal */
+.container {
+  max-width: 1100px;
+  margin: 40px auto 0 auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(35,35,58,0.06);
 }
 
 h1 {
-    text-align: left;
-    margin-top: 30px;
-    margin-bottom: 25px;
-    font-weight: bold;
-    font-size: 2.5rem;
-    margin-left: 180px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #23233a;
+  margin-bottom: 10px;
+  margin-left: 0;
 }
 
 h2 {
@@ -37,28 +22,44 @@ h2 {
     font-size: 1.5rem;
 }
 
-#form-lembrete.card {
-    max-width: 280px !important;
-    margin: 30px auto !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border-radius: 10px;
-    display: block;
-    width: 100%;
+.lembrete-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 10px;
 }
 
-#form-lembrete .card-body {
-    padding: 20px;
+.lembrete-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #44446a;
+  margin: 0;
 }
 
-/* Container com 4 colunas fixas */
+.lembrete-header button {
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lembrete-header button:hover {
+  background: #5146d8;
+}
+
+/* Cards de lembretes */
 .lembretes-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cards por linha */
-    gap: 20px;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 1800px;
-    align-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: flex-start;
+  margin-bottom: 24px;
 }
 
 .lembretes-container form.card {
@@ -71,29 +72,169 @@ h2 {
 
 /* Cards maiores e mais espaçosos */
 .lembretes-container .card {
-    min-height: 380px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    display: block;
-    margin: 10px;
-    width: 100%;
+  background: #f7f7fa;
+  border-radius: 10px;
+  padding: 28px 18px 18px 18px;
+  min-width: 240px;
+  max-width: 320px;
+  box-shadow: 0 2px 8px rgba(35,35,58,0.06);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e0e0e0;
+  transition: box-shadow 0.2s, border 0.2s;
+  margin: 0;
 }
 
-.lembretes-container .card-body {
-    padding: 40px;
-    font-size: 1.4rem;
+.lembretes-container .card:hover {
+  box-shadow: 0 4px 16px rgba(35,35,58,0.12);
+  border: 1.5px solid #bdbdf7;
 }
 
 .lembretes-container .card-title {
-    font-size: 1.8rem;
-    font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #23233a;
 }
 
 .lembretes-container .card-text {
-    font-size: 1.3rem;
+  font-size: 1.05rem;
+  color: #44446a;
+  margin-bottom: 6px;
 }
 
+.lembretes-container .card .local-lembrete {
+  font-size: 0.98rem;
+  color: #6c63ff;
+  margin-bottom: 6px;
+}
+
+.lembretes-container .card .horario-lembrete {
+  font-size: 0.98rem;
+  color: #23233a;
+  margin-bottom: 10px;
+}
+
+.lembretes-container .card .d-flex {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.lembretes-container .btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.18rem;
+  color: #44446a;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.lembretes-container .btn:hover {
+  background: #e5e5e5;
+  color: #23233a;
+}
+
+.lembretes-container .card.concluido .card-title,
 .lembretes-container .card.concluido .card-text {
-    text-decoration: line-through;
-    color: #888;
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Formulário de lembrete */
+.lembretes-container form.card {
+  background: #f7f7fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(35,35,58,0.06);
+  border: 1px solid #e0e0e0;
+  padding: 22px 14px 14px 14px;
+  margin: 0;
+}
+
+.lembretes-container .card-body {
+  padding: 0;
+  font-size: 1rem;
+}
+
+.lembretes-container label {
+  font-size: 0.98rem;
+  color: #23233a;
+  font-weight: 500;
+}
+
+.lembretes-container input,
+.lembretes-container textarea {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  background: #fff;
+}
+
+.lembretes-container textarea {
+  resize: vertical;
+}
+
+.lembretes-container .btn-success {
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  padding: 6px 16px;
+  border-radius: 5px;
+  margin-left: 8px;
+  transition: background 0.2s;
+}
+
+.lembretes-container .btn-success:hover {
+  background: #5146d8;
+}
+
+.lembretes-container .btn-secondary {
+  background: #e0e0e0;
+  color: #23233a;
+  border: none;
+  font-size: 1rem;
+  padding: 6px 16px;
+  border-radius: 5px;
+  margin-right: 8px;
+  transition: background 0.2s;
+}
+
+.lembretes-container .btn-secondary:hover {
+  background: #bdbdf7;
+  color: #23233a;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .container {
+    padding: 10px;
+  }
+  .lembretes-container {
+    gap: 14px;
+  }
+  .lembretes-container .card {
+    min-width: 160px;
+    max-width: 100%;
+    padding: 14px 6px 10px 6px;
+  }
+}
+@media (max-width: 600px) {
+  .lembretes-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lembrete-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 }

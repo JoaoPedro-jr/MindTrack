@@ -76,42 +76,6 @@
       </div>
     </div>
   </div>
-  
-  <script>
-    // Abrir modal
-    document.querySelector('.btn-add').onclick = () => {
-      document.getElementById('modal-meta').style.display = 'flex';
-    };
-  
-    // Fechar modal
-    document.getElementById('cancelar-meta').onclick = () => {
-      document.getElementById('modal-meta').style.display = 'none';
-    };
-  
-    // Adicionar nova meta
-    document.getElementById('salvar-meta').onclick = () => {
-      const tipo = document.getElementById('tipo-meta').value;
-      const horas = document.getElementById('horas-meta').value;
-      const tipoLabel = tipo.charAt(0).toUpperCase() + tipo.slice(1);
-  
-      // Cria o card
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <h3>Meta ${tipoLabel}</h3>
-        <p>Total de horas: <span class="highlight">${horas} horas</span></p>
-        <div class="card-actions">
-          <button class="btn-icon"><i class="bx bx-star"></i></button>
-          <button class="btn-icon"><i class="bx bx-pencil"></i></button>
-          <button class="btn-icon"><i class="bx bx-trash"></i></button>
-        </div>
-      `;
-      document.querySelector('.cards').appendChild(card);
-  
-      // Fecha o modal
-      document.getElementById('modal-meta').style.display = 'none';
-    };
-  </script>
   <script src="src/metas/script.js"></script>
 </body>
 </html>

@@ -16,20 +16,20 @@
     <h1></h1>
 
     <section class="cards">
-      <div class="card destaque">
-        <h2 img=""> Dias seguidos estudando</h2>
-        <p class="valor">6 dias</p>
-        <small>Você manteve o foco por 6 dias!</small>
-      </div>
+      <div class="card" id="streak-card">
+  <h2>Dias seguidos estudando</h2>
+  <p class="valor" id="streak-valor"></p>
+  <small class="streak-data"></small>
+</div>
       <div class="card">
         <h2> Metas concluídas</h2>
-        <p class="valor">1</p>
-        <small>Você já completou 1 meta!</small>
+        <p class="valor"></p>
+        <small></small>
       </div>
       <div class="card">
         <h2> Tempo de estudo</h2>
         <p id="totalHoras" class="valor-grande"></p>
-        <small>Últimos 7 dias</small>
+        
       </div>
     </section>
 
@@ -56,6 +56,10 @@
 </div>
 
     </section>
+    <section class="registro-estudo">
+  <h3>Tempo de Estudo dos últimos 7 dias</h3>
+  <ul id="lista-estudo-semana"></ul>
+</section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
@@ -67,6 +71,14 @@
         document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
         document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
         iniciarSidebar();
+
+        const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.onclick = function() {
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = "login.html";
+      };
+    }
       });
 
     function iniciarSidebar() {

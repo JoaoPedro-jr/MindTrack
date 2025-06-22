@@ -21,7 +21,7 @@
 
   <div class="text-calender">
     <h2 class="cm">Cronograma Mensal</h2>
-    <h1 class="abril">MAIO 2025</h1>
+    <h1 class="abril">JUNHO 2025</h1>
   </div>
 
   <div class="calendario" id="calendario-grid">
@@ -62,6 +62,14 @@
         document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
         iniciarSidebar();
         inicializarCalendario(); 
+
+        const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.onclick = function() {
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = "login.html";
+      };
+    }
       });
 
     function iniciarSidebar() {

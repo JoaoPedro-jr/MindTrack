@@ -1,3 +1,21 @@
+function getUserPrefix() {
+  return localStorage.getItem('usuarioLogado') || 'anonimo';
+}
+
+function salvarRegistro(registro) {
+  const prefix = getUserPrefix();
+  const registros = JSON.parse(localStorage.getItem(`${prefix}_registros`) || '[]');
+  registros.push(registro);
+  localStorage.setItem(`${prefix}_registros`, JSON.stringify(registros));
+}
+
+function getRegistros() {
+  const prefix = getUserPrefix();
+  return JSON.parse(localStorage.getItem(`${prefix}_registros`) || '[]');
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector(".login-form");
   

@@ -1,3 +1,9 @@
+function getUserPrefix() {
+  return localStorage.getItem('usuarioLogado') || 'anonimo';
+}
+
+
+
 function inicializarCalendario() {
     const calendarioGrid = document.getElementById("calendario-grid");
     const modal = document.querySelector(".modal");
@@ -106,45 +112,51 @@ function inicializarCalendario() {
 
 
     btnReset.onclick = function () {
-        if (confirm("Tem certeza que deseja resetar o calendário? Isso apagará todos os eventos.")) {
-            localStorage.removeItem('eventosCalendario');
-            gerarDias();
-            atribuirEventosAdd();
-            historico = [];
-        }
-    };
+    if (confirm("Tem certeza que deseja resetar o calendário? Isso apagará todos os eventos.")) {
+        const prefix = getUserPrefix();
+        localStorage.removeItem(`${prefix}_eventosCalendario`);
+        gerarDias();
+        atribuirEventosAdd();
+        historico = [];
+    }
+};
 
 
     function salvarEventosLocalStorage() {
-        const dias = document.querySelectorAll(".dia");
-        const eventos = [];
-        dias.forEach((dia, index) => {
-            dia.querySelectorAll(".evento").forEach((evento) => {
-                eventos.push({
-                    dia: index,
-                    titulo: evento.textContent,
-                    cor: evento.classList[1] || "default"
-                });
-            });
-        });
-        localStorage.setItem("eventosCalendario", JSON.stringify(eventos));
-    }
+  const prefix = getUserPrefix();
+  const dias = document.querySelectorAll(".dia");
+  const eventos = [];
+  dias.forEach((dia, index) => {
+    dia.querySelectorAll(".evento").forEach((evento) => {
+      eventos.push({
+        dia: index,
+        titulo: evento.textContent,
+        cor: evento.classList[1] || "default"
+      });
+    });
+  });
+  localStorage.setItem(`${prefix}_eventosCalendario`, JSON.stringify(eventos));
+}
 
     function carregarEventosLocalStorage() {
-        const eventos = JSON.parse(localStorage.getItem("eventosCalendario") || "[]");
-        const dias = document.querySelectorAll(".dia");
-        eventos.forEach((evento) => {
-            if (dias[evento.dia]) {
-                const divEvento = document.createElement("div");
-                divEvento.classList.add("evento", evento.cor);
-                divEvento.textContent = evento.titulo;
-                dias[evento.dia].appendChild(divEvento);
-            }
-        });
+  const prefix = getUserPrefix();
+  const eventos = JSON.parse(localStorage.getItem(`${prefix}_eventosCalendario`) || "[]");
+  const dias = document.querySelectorAll(".dia");
+  eventos.forEach((evento) => {
+    if (dias[evento.dia]) {
+      const divEvento = document.createElement("div");
+      divEvento.classList.add("evento", evento.cor);
+      divEvento.textContent = evento.titulo;
+      dias[evento.dia].appendChild(divEvento);
     }
+  });
+}
 
 
     gerarDias();
     atribuirEventosAdd();
     carregarEventosLocalStorage();
 }
+
+// chama a inicialização
+document.addEventListener("DOMContentLoaded", inicializarCalendario);

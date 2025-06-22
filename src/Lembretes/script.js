@@ -1,6 +1,10 @@
+function getUserPrefix() {
+  return localStorage.getItem('usuarioLogado') || 'anonimo';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const btn = document.getElementById('adicionar-lembrete');
-    let autocomplete; // variável global para o autocomplete
+    let autocomplete;
 
     function pegarTextoBotao(nome) {
         const el = document.querySelector(`#textos-botoes [data-nome="${nome}"]`);
@@ -28,7 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             lembretes.push({ titulo, conteudo, dataTexto, local, concluido });
         });
-        localStorage.setItem('lembretes', JSON.stringify(lembretes));
+        const prefix = getUserPrefix();
+        localStorage.setItem(`${prefix}_lembretes`, JSON.stringify(lembretes));
     }
 
     function riscarCard(card) {
@@ -205,10 +210,9 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `;
 
-        // Inicializar autocomplete no input do local
         setTimeout(() => {
             const inputLocal = form.querySelector('#local');
-            if (inputLocal) {
+            if (inputLocal && window.google && google.maps && google.maps.places) {
                 autocomplete = new google.maps.places.Autocomplete(inputLocal, {
                     types: ['geocode'],
                     componentRestrictions: { country: 'br' },
@@ -257,20 +261,19 @@ document.addEventListener('DOMContentLoaded', function () {
         return form;
     }
 
-    // Carregar lembretes salvos
-    const lembretesSalvos = JSON.parse(localStorage.getItem('lembretes')) || [];
+    // Carregar lembretes salvos do usuário logado
+    const prefix = getUserPrefix();
+    const lembretesSalvos = JSON.parse(localStorage.getItem(`${prefix}_lembretes`)) || [];
     lembretesSalvos.forEach(dados => {
         const card = criarCard(dados);
         container.appendChild(card);
     });
 
-    // Abrir formulário ao clicar no botão
     btn.addEventListener('click', function () {
         const form = criarForm();
         container.appendChild(form);
     });
 
-    // Pedir permissão de notificações se ainda não concedida
     if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission();
     }

@@ -19,65 +19,69 @@
         <button class="btn-registro">Registrar estudo</button>
       </div>
       <div class="planejamento-cards">
-  <div class="planejamento-card tempo-estudo">
-    <div class="card-header">
-      <span>Tempo de estudo</span>
-      <i class='bx bx-time'></i>
-    </div>
-    <div class="card-body">
-      <span class="highlight">00:00:00</span>
-      <small>20 registros</small>
-    </div>
-  </div>
-  <div class="planejamento-card meta-atual">
-    <div class="card-header">
-      <span>Meta Atual</span>
-    </div>
-    <div class="card-body">
-      <span class="highlight">--:--:--</span>
-    </div>
-  </div>
-  <div class="planejamento-card conclusao-meta">
-    <div class="card-header">
-      <span>Conclusão de Meta</span>
-      <i class='bx bx-bar-chart-alt-2'></i>
-    </div>
-    <div class="card-body">
-      <span class="highlight">--%</span>
-      <small>20 registros</small>
-    </div>
-  </div>
-</div>
-      
+        <div class="planejamento-card tempo-estudo">
+          <div class="card-header">
+            <span>Tempo de estudo</span>
+            <i class='bx bx-time'></i>
+          </div>
+          <div class="card-body">
+            <span class="highlight" id="tempo-estudo-valor">00:00:00</span>
+          </div>
+        </div>
+        <div class="planejamento-card meta-atual">
+          <div class="card-header">
+            <span>Meta Atual</span>
+          </div>
+          <div class="card-body">
+            <span class="highlight" id="meta-atual-valor">--:--:--</span>
+          </div>
+        </div>
+        <div class="planejamento-card conclusao-meta">
+          <div class="card-header">
+            <span>Conclusão de Meta</span>
+            <i class='bx bx-bar-chart-alt-2'></i>
+          </div>
+          <div class="card-body">
+            <span class="highlight" id="conclusao-meta-valor">--%</span>
+          </div>
+        </div>
+      </div>
     </section>
     <section class="materias-section">
       <div class="materias-header">
         <div class="materias">
-        <h2>Matérias</h2>
+          <h2>Matérias</h2>
         </div>
         <button class="btn-add-materia"><i class='bx bx-plus'></i></button>
       </div>
       <ul class="materias-list">
-        
+        <!-- Matérias serão inseridas aqui -->
       </ul>
-      <div id="modal-estudo-bg" style="display:none;" class="modal-estudo-bg">
-  <div class="modal-estudo">
-    <h3>Registrar Estudo</h3>
-    <label for="tempo-estudo">Tempo estudado (hh:mm:ss):</label>
-    <input type="text" id="tempo-estudo" placeholder="Ex: 01:30:00" />
-    <div class="modal-estudo-actions">
-      <button id="cancelar-estudo" class="btn-registro" style="background:#aaa;">Cancelar</button>
-      <button id="salvar-estudo" class="btn-registro">Salvar</button>
-    </div>
-  </div>
-</div>
-    
-
-
-
-
-
     </section>
+    <!-- Modal de estudo -->
+    <div id="modal-estudo-bg" style="display:none;" class="modal-estudo-bg">
+      <div class="modal-estudo">
+        <h3>Registrar Estudo</h3>
+        <label for="tempo-estudo">Tempo estudado (hh:mm:ss):</label>
+        <input type="text" id="tempo-estudo" placeholder="Ex: 01:30:00" />
+        <div class="modal-estudo-actions">
+          <button id="cancelar-estudo" class="btn-registro" style="background:#aaa;">Cancelar</button>
+          <button id="salvar-estudo" class="btn-registro">Salvar</button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal de matéria -->
+    <div id="modal-materia-bg" class="modal-estudo-bg" style="display:none;">
+      <div class="modal-estudo">
+        <h3 id="modal-materia-title">Adicionar Matéria</h3>
+        <label for="nome-materia">Nome da matéria:</label>
+        <input type="text" id="nome-materia" placeholder="Ex: Python" />
+        <div class="modal-estudo-actions">
+          <button id="cancelar-materia" class="btn-registro" style="background:#aaa;">Cancelar</button>
+          <button id="salvar-materia" class="btn-registro">Salvar</button>
+        </div>
+      </div>
+    </div>
   </main>
   <script src="src/estatisticas/script.js"></script>
   <script>
@@ -89,6 +93,14 @@
         document.getElementById('header').innerHTML = tempDiv.querySelector('#header').innerHTML;
         document.getElementById('nav-bar').innerHTML = tempDiv.querySelector('#nav-bar').innerHTML;
         iniciarSidebar();
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.onclick = function() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = "login.html";
+          };
+        }
       });
 
     function iniciarSidebar() {
@@ -106,37 +118,5 @@
       }
     }
   </script>
-  <script>
-  // Modal Registrar Estudo
-  document.querySelector('.btn-registro').onclick = () => {
-    document.getElementById('modal-estudo-bg').style.display = 'flex';
-  };
-  document.getElementById('cancelar-estudo').onclick = () => {
-    document.getElementById('modal-estudo-bg').style.display = 'none';
-    document.getElementById('tempo-estudo').value = '';
-  };
-  document.getElementById('salvar-estudo').onclick = () => {
-    
-    const tempo = document.getElementById('tempo-estudo').value;
-    if(tempo) {
-      alert('Tempo registrado: ' + tempo);
-     
-      document.getElementById('modal-estudo-bg').style.display = 'none';
-      document.getElementById('tempo-estudo').value = '';
-    } else {
-      alert('Por favor, preencha o tempo.');
-    }
-  };
-</script><div id="modal-materia-bg" class="modal-estudo-bg" style="display:none;">
-  <div class="modal-estudo">
-    <h3 id="modal-materia-title">Adicionar Matéria</h3>
-    <label for="nome-materia">Nome da matéria:</label>
-    <input type="text" id="nome-materia" placeholder="Ex: Python" />
-    <div class="modal-estudo-actions">
-      <button id="cancelar-materia" class="btn-registro" style="background:#aaa;">Cancelar</button>
-      <button id="salvar-materia" class="btn-registro">Salvar</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
